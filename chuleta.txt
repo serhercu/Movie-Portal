@@ -1,0 +1,5 @@
+MVC = Model View Controller
+DLT = Django
+ORM = Object-Relational Mapper
+
+project_web el virtenv
