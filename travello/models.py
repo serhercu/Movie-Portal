@@ -8,4 +8,3 @@ class Movie(models.Model):
     desc = models.TextField()
     year = models.IntegerField()
     new = models.BooleanField(default=False)
- 
