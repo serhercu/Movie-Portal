@@ -8,3 +8,6 @@ def index(request):
     dests = Movie.objects.all()
 
     return render(request, 'index.html', {'dests': dests})
+
+def movie(request):
+    return render(request,'movie.html')

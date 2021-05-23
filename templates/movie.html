@@ -1,0 +1,109 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Destinations</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Movie portal project">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/MovieStyles.css' %}">
+    </head>
+
+    <body>
+        <div class="bg"/>
+
+        <nav class="navbar fixed-top bg-dark">
+            <p href="http://127.0.0.1:8000/" class="title">Movie Portal</p>
+        </nav>
+
+        <div class="row">
+            <div class="column1">
+                 <img class="img-film" src="https://static.wikia.nocookie.net/james-camerons-avatar/images/f/f9/Polski_plakat_avatara.jpg/revision/latest/top-crop/width/360/height/450?cb=20100724222406&path-prefix=pl">
+            </div>
+            <div class="column2">
+                <div class="row">
+                    <div class="column-title">
+                        <p class="title-film small">El señor de los anillos</p>
+                    </div>
+                    <div class="column-punctuation">
+                        <p class="punctuation">84%</p>
+                    </div>
+                    <div class="column-thumbs">
+                        <img class="img-thumbs" src="https://image.flaticon.com/icons/png/512/25/25297.png">
+                        <img class="img-thumbs" src="http://cdn.onlinewebfonts.com/svg/img_90776.png">
+                    </div>
+                </div>
+                 <table class="styled-table" style="margin-right: 30px">
+                    <thead>
+                        <tr>
+                            <th>Information</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row">
+                            <td>Director</td>
+                            <td>James Cameron</td>
+                        </tr>
+                        <tr class="active-row">
+                            <td>Release Date</td>
+                            <td>2015</td>
+                        </tr>
+                        <tr class="active-row">
+                            <td>Category</td>
+                            <td>Action</td>
+                        </tr>
+                        <tr class="active-row">
+                            <td>Cast</td>
+                            <td>Lionel Messi, Andres Iniesta, Sergio Busquets, Pau Gasol, Lebron James</td>
+                        </tr>
+                        <tr class="active-row">
+                            <td>Original Language</td>
+                            <td>English</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="styled-table" style="margin-right: 30px">
+                    <tbody>
+                        <tr class="active-row">
+                            <td>Description</td>
+                            <td>A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home. When his brother is killed in a robbery, paraplegic Marine Jake Sully decides to take his place in a mission on the distant world of Pandora.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <table class="styled-table" style="margin-right: 30px">
+                <thead>
+                    <tr>
+                        <th>Comments</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active-row">
+                        <td>John</td>
+                        <td>The movie was really good</td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>Marie</td>
+                        <td>I didn't like the movie.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="title-comment margins" style="margin-top: 25px">Post your comment</p>
+        <input type="text" class="margins" id="exampleInputName" placeholder="Enter name">
+        <div style="margin-bottom: 15px">
+            <label class="margins" style="margin-top: 15px" for="exampleFormControlTextarea1">Write the comment:</label>
+            <textarea class="margins" style=" min-width:500px; max-width:70%;min-height:50px;width:70%;margin-right: 30px"  id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-dark right" style="margin-bottom: 30px">POST</button>
+    </body>
+</html>
