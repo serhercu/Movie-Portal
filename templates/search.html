@@ -1,2 +1,44 @@
 {% extends 'index.html' %}
 
+{% block content %}
+
+<div class="destinations" id="destinations">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="section_subtitle"></div>
+                {% if not searched %}
+                <div class="section_title"><h2>Any movie matches with this parameters</h2></div>
+                {% else %}
+                <div class="section_title"><h2>Results</h2></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row destinations_row">
+            <div class="col">
+                <div class="destinations_container item_grid">
+
+                    {% for dest in searched %}
+                    <!-- Movies -->
+                    <div class="destination item">
+                        <div class="destination_image">
+                            <img src="{{dest.img.url}}" alt="">
+
+                            {% if dest.offer %}
+                            <div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+                            {% endif %}
+                        </div>
+                        <div class="destination_content">
+                            <div class="destination_title"><a href="accounts/register">{{dest.title}}</a></div>
+                            <div class="destination_subtitle"><p>{{dest.desc}}</p></div>
+                            <div class="destination_price">{{dest.description}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
