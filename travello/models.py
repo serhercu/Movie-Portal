@@ -1,49 +1,64 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
+
 
 # Create your models here.
 
-class Director(models.Model):
-    class Meta:
-        verbose_name_plural = 'director'
-
-    name = models.CharField(max_length=75)
+class Person(models.Model):
+    Name = models.CharField(max_length=50)
+    Role = models.BooleanField(default=True)
 
     def __str__(self):
-        return super().__str__()
+        return self.Name
+
 
 class Movie(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=200, unique=True, default='')
     img = models.ImageField(upload_to='pics')
     desc = models.TextField()
     year = models.IntegerField()
     new = models.BooleanField(default=False)
+    Language = models.CharField(max_length=20, default='')
+    CATEGORY_CHOICES = [
+        ('AC', 'Action'),
+        ('CO', 'Comedies'),
+        ('RO', 'Romantic'),
+        ('ROM', 'Rom-coms'),
+        ('AD', 'Adventure'),
+        ('MU', 'Musical'),
+        ('DR', 'Drama'),
+        ('HDR', 'Historical drama'),
+        ('SC', 'Sci-fi'),
+    ]
+    Category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='CO')
+    MeanRatings = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
+    NumberRates = models.IntegerField(default=0)
+    NumberComments = models.IntegerField(default=0)
 
-from django.db import models
-
-# Create your models here.
-
-class Director(models.Model):
-    class Meta:
-        verbose_name_plural = 'directors'
-
-    name = models.CharField(max_length=75)
+    persons = models.ManyToManyField(Person)
 
     def __str__(self):
-        return super().__str__()
+        return self.Title
 
-class Movie(models.Model):
-    title = models.CharField(max_length=100)
-    img = models.ImageField(upload_to='pics')
-    desc = models.TextField()
-    year = models.IntegerField()
 
-    class Genre(models.TextChoices):
-            ACTION ='Action'
-            CARTOON = 'Cartoon'
-            HUMOR = 'Humor'
-            THRILLER = 'Thriller'
+class Rate(models.Model):
+    Rate = models.BooleanField(default=True)
+    Date = models.DateTimeField('date published')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
-    genre = models.TextField(choices=Genre.choices, default=0)
+    def __str__(self):
+        return self.Rate
 
-    director = models.ForeignKey(Director, on_delete=models.CASCADE, unique=True)
+    def was_published_recently(self):
+        return self.Date >= timezone.now() - datetime.timedelta(days=1)
 
+
+class Comment(models.Model):
+    Comment = models.CharField(max_length=400)
+    Date = models.DateTimeField('date published')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.Comment

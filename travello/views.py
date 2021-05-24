@@ -24,3 +24,6 @@ def search(request):
                 searched.append(movie)
     
     return render(request,'search.html', {'searched': searched})
+
+def movie(request):
+    return render(request,'movie.html')
