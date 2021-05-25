@@ -1,0 +1,169 @@
+body, html {
+  height: 100%;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("https://image.freepik.com/foto-gratis/acuarela-textura-fondo-gris-claro-fondo-blanco-negro_145343-142.jpg");
+
+  /* Full height */
+  height: 180%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 100%;
+}
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.bg-dark {
+    background-color: #23272b;
+}
+
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+}
+
+.title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-top: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.title-film {
+    color: black;
+    text-transform: uppercase;
+    font-size: 5vw;
+    font-family: "DecoType Naskh";
+    letter-spacing: 3px;
+    text-shadow: 2px 2px #ffffff;
+    padding-left: 20px;
+    padding-top: 35px;
+}
+
+.title-comment {
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+
+p.small {
+    line-height: 0.8;
+}
+
+.margins {
+    margin-right: 200px;
+    margin-left: 200px;
+}
+
+.punctuation {
+    color: #9a0303;
+    text-transform: uppercase;
+    font-size: 6vw;
+    font-family: "DecoType Naskh";
+    text-shadow: 2px 2px #ffffff;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 10px;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #000000;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #000000;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #000000;
+}
+
+.column1 {
+    float: left;
+    width: 35%;
+    padding: 5px;
+}
+
+.column2 {
+    float: left;
+    width: 65%;
+    padding: 5px;
+}
+
+.column-title {
+    float: left;
+    width: 50%;
+    padding: 5px;
+}
+
+.column-punctuation {
+    float: left;
+    width: 20%;
+    padding: 5px;
+}
+
+.column-thumbs {
+    float: left;
+    width: 30%;
+    padding: 5px;
+}
+
+.img-film {
+    border: 10px solid #ffffff;
+    margin-left: 70px;
+    width: 70%;
+    height: auto;
+}
+
+.img-thumbs {
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 30%;
+    height: auto;
+}
+
+.right {
+    float: right;
+    padding: 10px;
+    margin-right: 240px;
+}

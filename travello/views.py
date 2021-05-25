@@ -1,16 +1,16 @@
 from django.shortcuts import render
-from .models import Movie
+from .models import Movie, Comment
 
 # Create your views here.
 
 
 def index(request):
-    dests = Movie.objects.all()
+    dests = Movie.objects.all().order_by('-id')
 
     return render(request, 'index.html', {'dests': dests})
 
 def search(request):
-    title1 = request.GET['title']
+    title1 = request.GET['title1']
     year1 = request.GET['year']
 
     movies = Movie.objects.all()
@@ -19,11 +19,13 @@ def search(request):
     for movie in movies:
         if title1 in movie.title:
             searched.append(movie) 
-        elif year1 is not '':
+        elif year1 == movie.year:
             if int(year1) == movie.year:
                 searched.append(movie)
     
     return render(request,'search.html', {'searched': searched})
 
-def movie(request):
-    return render(request,'movie.html')
+def movie(request, slug, id):
+    movie = Movie.objects.get(id=id)
+
+    return render(request,'movie.html', {'movie': movie})

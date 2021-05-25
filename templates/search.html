@@ -1,5 +1,9 @@
 {% extends 'index.html' %}
 
+{% block slide %}
+<div class="background_image" style="background-image:url(http://127.0.0.1:8000/static/images/home_slider2.jpg)"></div>
+{% endblock %}
+
 {% block content %}
 
 <div class="destinations" id="destinations">
@@ -23,15 +27,10 @@
                     <div class="destination item">
                         <div class="destination_image">
                             <img src="{{dest.img.url}}" alt="">
-
-                            {% if dest.offer %}
-                            <div class="spec_offer text-center"><a href="#">Special Offer</a></div>
-                            {% endif %}
                         </div>
                         <div class="destination_content">
-                            <div class="destination_title"><a href="accounts/register">{{dest.title}}</a></div>
+                            <div class="destination_title"><a href="/movie/{{dest.title}}/{{dest.id}}">{{dest.title}}</a></div>
                             <div class="destination_subtitle"><p>{{dest.desc}}</p></div>
-                            <div class="destination_price">{{dest.description}}</div>
                         </div>
                     </div>
                     {% endfor %}

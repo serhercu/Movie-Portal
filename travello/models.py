@@ -14,6 +14,20 @@ class Person(models.Model):
         return self.Name
 
 
+class Director(models.Model):
+    Name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Name
+
+class Comment(models.Model):
+    Name = models.CharField(max_length=40)
+    Comment = models.CharField(max_length=400)
+    Date = models.DateTimeField('date published')
+
+    def __str__(self):
+        return self.Comment
+
 class Movie(models.Model):
     title = models.CharField(max_length=200, unique=True, default='')
     img = models.ImageField(upload_to='pics')
@@ -37,10 +51,12 @@ class Movie(models.Model):
     NumberRates = models.IntegerField(default=0)
     NumberComments = models.IntegerField(default=0)
 
+    director = models.ForeignKey(Director, on_delete=models.CASCADE)
     persons = models.ManyToManyField(Person)
+    comments = models.ManyToManyField(Comment)
 
     def __str__(self):
-        return self.Title
+        return self.title
 
 
 class Rate(models.Model):
@@ -54,11 +70,3 @@ class Rate(models.Model):
     def was_published_recently(self):
         return self.Date >= timezone.now() - datetime.timedelta(days=1)
 
-
-class Comment(models.Model):
-    Comment = models.CharField(max_length=400)
-    Date = models.DateTimeField('date published')
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.Comment

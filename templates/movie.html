@@ -3,107 +3,199 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Destinations</title>
-        <meta charset="utf-8">
-        <meta name="description" content="Movie portal project">
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/MovieStyles.css' %}">
-    </head>
+<head>
+<title>Movie Portal</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Movie Portal template project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact_responsive.css' %}">
 
-    <body>
-        <div class="bg"/>
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+</head>
+<body>
 
-        <nav class="navbar fixed-top bg-dark">
-            <p href="http://127.0.0.1:8000/" class="title">Movie Portal</p>
-        </nav>
+<div class="super_container">
 
-        <div class="row">
-            <div class="column1">
-                 <img class="img-film" src="https://static.wikia.nocookie.net/james-camerons-avatar/images/f/f9/Polski_plakat_avatara.jpg/revision/latest/top-crop/width/360/height/450?cb=20100724222406&path-prefix=pl">
-            </div>
-            <div class="column2">
-                <div class="row">
-                    <div class="column-title">
-                        <p class="title-film small">El señor de los anillos</p>
-                    </div>
-                    <div class="column-punctuation">
-                        <p class="punctuation">84%</p>
-                    </div>
-                    <div class="column-thumbs">
-                        <img class="img-thumbs" src="https://image.flaticon.com/icons/png/512/25/25297.png">
-                        <img class="img-thumbs" src="http://cdn.onlinewebfonts.com/svg/img_90776.png">
-                    </div>
-                </div>
-                 <table class="styled-table" style="margin-right: 30px">
-                    <thead>
-                        <tr>
-                            <th>Information</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="active-row">
-                            <td>Director</td>
-                            <td>James Cameron</td>
-                        </tr>
-                        <tr class="active-row">
-                            <td>Release Date</td>
-                            <td>2015</td>
-                        </tr>
-                        <tr class="active-row">
-                            <td>Category</td>
-                            <td>Action</td>
-                        </tr>
-                        <tr class="active-row">
-                            <td>Cast</td>
-                            <td>Lionel Messi, Andres Iniesta, Sergio Busquets, Pau Gasol, Lebron James</td>
-                        </tr>
-                        <tr class="active-row">
-                            <td>Original Language</td>
-                            <td>English</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="styled-table" style="margin-right: 30px">
-                    <tbody>
-                        <tr class="active-row">
-                            <td>Description</td>
-                            <td>A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home. When his brother is killed in a robbery, paraplegic Marine Jake Sully decides to take his place in a mission on the distant world of Pandora.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+	<!-- Header -->
 
-        <div class="row d-flex justify-content-center">
-            <table class="styled-table" style="margin-right: 30px">
-                <thead>
-                    <tr>
-                        <th>Comments</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="active-row">
-                        <td>John</td>
-                        <td>The movie was really good</td>
-                    </tr>
-                    <tr class="active-row">
-                        <td>Marie</td>
-                        <td>I didn't like the movie.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start">
+						<div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+							<div class="logo"><a href="/">Movie Portal</a></div>
+							<nav class="main_nav">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<li class="active"><a href="/">Home</a></li>
 
-        <p class="title-comment margins" style="margin-top: 25px">Post your comment</p>
-        <input type="text" class="margins" id="exampleInputName" placeholder="Enter name">
-        <div style="margin-bottom: 15px">
-            <label class="margins" style="margin-top: 15px" for="exampleFormControlTextarea1">Write the comment:</label>
-            <textarea class="margins" style=" min-width:500px; max-width:70%;min-height:50px;width:70%;margin-right: 30px"  id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
+									{% if user.is_authenticated %}
+									<li>Hello, {{user.first_name}}</li>
+									<li><a href="accounts/logout">Logout</a></li>
+									{% else %}
+									<li><a href="accounts/register">Register</a></li>
+									<li><a href="travello/movie">Login</a></li>
+									{% endif %}
+								</ul>
+							</nav>
+							<div class="header_phone ml-auto"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-        <button type="button" class="btn btn-dark right" style="margin-bottom: 30px">POST</button>
-    </body>
+	<!-- Menu -->
+
+	<div class="menu">
+		<div class="menu_header d-flex flex-row align-items-center justify-content-start">
+			<div class="menu_logo"><a href="index.html">Travello</a></div>
+			<div class="menu_close_container ml-auto"><div class="menu_close"><div></div><div></div></div></div>
+		</div>
+		<div class="menu_content">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Home -->
+
+	<div class="home">
+
+		<!-- Home Slider -->
+		<div class="home_slider_container">
+			<div class="owl-carousel owl-theme home_slider">
+
+				<!-- Slide -->
+				<div class="owl-item">
+					<div class="background_image" style="background-image:url(static/images/home_slider2.jpg)"></div>
+					<div class="home_slider_content_container">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="home_slider_content">
+										<div class="home_title"><h2></h2></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="home_page_nav">
+				<ul class="d-flex flex-column align-items-end justify-content-end">
+					<li><a href="#" data-scroll-to="#destinations">Movies<span>01</span></a></li>
+					<li><a href="#" data-scroll-to="#testimonials"><span></span></a></li>
+					<li><a href="#" data-scroll-to="#news"><span></span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Movies -->
+
+	<div class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title"><h2>{{movie.title}}</h2></div>
+					<div class="section_title"><h2></h2></div>
+				</div>
+			</div>
+			<div class="row about_row">
+				<div class="col-lg-6">
+					<div class="about_content">
+						<div class="about_text">
+							<p>Title: {{movie.title}}</p>
+							<p>Director : {{movie.director}}</p>
+							<p>Genre: {{movie.Category}}</p>
+							<p>Year: {{movie.year}}</p>
+							<p>Language: {{movie.Language}}</p>
+							<p>Actors: 
+							{% for actor in movie.persons.all %}
+                				{{ actor }}
+            				{% endfor %}
+							</p>
+							<p>Plot: {{movie.desc}}</p>
+						</div>
+					<div class="section_title"><h2>Rating: {{movie.MeanRatings}}
+						<div class="button about_button"><a href="#">Like this movie</a>
+						</div></h2>
+					</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="about_image"><img src="{{movie.img.url}}" alt=""></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contact -->
+
+	<div class="contact">
+		<div class="container">
+			<div class="row">
+
+				<!-- Get in touch -->
+				<div class="col-lg-6">
+					<div class="contact_content">
+						<div class="contact_title">Comments</div>
+						<div class="contact_text">
+							<p></p>
+						</div>
+						<div class="contact_list">
+							{% for comm in movie.comments.all %}
+							<ul>
+								<li>
+									<div>User: {{comm.Name}}</div>
+									<div>{{comm.Comment}}</div>
+									
+								</li>
+							</ul>
+							{%endfor%}
+						</div>
+					</div>
+				</div>
+
+				<!-- Contact Form -->
+				<div class="col-lg-6">
+					<div class="contact_form_container">
+						<form action="#" id="contact_form" class="contact_form">
+							<div style="margin-bottom: 18px"><input type="text" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
+							<div><textarea class="contact_textarea contact_input inpt" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+							<button class="contact_button">send</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+		
+	</footer>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+</body>
 </html>
