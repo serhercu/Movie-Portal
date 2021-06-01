@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/destinations.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/destinations_responsive.css' %}">
 </head>
 <body>
 
@@ -110,7 +112,7 @@
 						<div class="home_search_content">
 							<form action="search" class="home_search_form" id="home_search_form" method="GET">
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-									<input type="text" name="title1" class="search_input search_input_1" placeholder="Title">
+									<input type="text" name="title" class="search_input search_input_1" placeholder="Title">
 									<input type="text" name="director" class="search_input search_input_2" placeholder="Director">
 									<input type="text" name= "year" class="search_input search_input_3" placeholder="Year">
 									<input type="text" name="genre" class="search_input search_input_4" placeholder="Genre">
@@ -136,6 +138,20 @@
 					<div class="section_title"><h2>Popular Movies</h2></div>
 				</div>
 			</div>
+			<div class="buttons">
+				<div class="elements_title"></div>
+				<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
+					<div class="button"><a href="action">Action</a></div>
+					<div class="button button_2"><a href="comedy">Comedy</a></div>
+					<div class="button"><a href="romantic">Romantic</a></div>
+					<div class="button button_2"><a href="rom-com">Rom-com</a></div>
+					<div class="button"><a href="adventure">Adventure</a></div>
+					<div class="button button_2"><a href="musical">Musical</a></div>
+					<div class="button"><a href="drama">Drama</a></div>
+					<div class="button button_2"><a href="historical-drama">Historial Drama</a></div>
+					<div class="button"><a href="sci-fi">Sci-fi</a></div>
+				</div>
+			</div>
 			<div class="row destinations_row">
 				<div class="col">
 					<div class="destinations_container item_grid">
@@ -144,15 +160,13 @@
 						<!-- Movies -->
 						<div class="destination item">
 							<div class="destination_image">
-								<img src="{{dest.img.url}}" alt="">
-
-								{% if dest.offer %}
-								<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
-								{% endif %}
+								<img src="{{dest.img.url}}" alt=""
+									width="400px"
+									height="500px">
 							</div>
 							<div class="destination_content">
 								<div class="destination_title"><a href="/movie/{{dest.title}}/{{dest.id}}">{{dest.title}}</a></div>
-								<div class="destination_subtitle"><p></p></div>
+								<div class="destination_subtitle"><p>{{dest.year}}</p></div>
 							</div>
 						</div>
 						{% endfor %}

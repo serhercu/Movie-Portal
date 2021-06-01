@@ -788,6 +788,7 @@ section
 .about_button
 {
 	margin-top: 67px;
+	display: inline-block
 }
 .about_image
 {

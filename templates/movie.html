@@ -19,6 +19,10 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/elements.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/elements_responsive.css' %}">
 </head>
 <body>
 
@@ -84,6 +88,9 @@
 							<div class="row">
 								<div class="col">
 									<div class="home_slider_content">
+										<iframe width="720" height="700"
+											src="{{movie.link}}">
+										</iframe>
 										<div class="home_title"><h2></h2></div>
 									</div>
 								</div>
@@ -128,15 +135,23 @@
             				{% endfor %}
 							</p>
 							<p>Plot: {{movie.desc}}</p>
+							<p></p>
 						</div>
-					<div class="section_title"><h2>Rating: {{movie.MeanRatings}}
-						<div class="button about_button"><a href="#">Like this movie</a>
-						</div></h2>
-					</div>
+						<div class="buttons">
+							<div class="elements_title">Rating: {{movie.MeanRatings}}%</div>
+							<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
+								<div class="button"><a href="/movie/{{movie.title}}/{{movie.id}}/like">Like</a></div>
+								<div class="button button_2"><a href="/movie/{{movie.title}}/{{movie.id}}/dislike">Dislike</a></div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
-					<div class="about_image"><img src="{{movie.img.url}}" alt=""></div>
+					<div class="about_image">
+						<img src="{{movie.img.url}}" alt=""
+							width="500px"
+							height="600px">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -153,13 +168,15 @@
 					<div class="contact_content">
 						<div class="contact_title">Comments</div>
 						<div class="contact_text">
-							<p></p>
+							{% if not movie.comments.all %}
+							<p>This movie has no comments yet.</p>
+							{% endif %}
 						</div>
 						<div class="contact_list">
 							{% for comm in movie.comments.all %}
 							<ul>
 								<li>
-									<div>User: {{comm.Name}}</div>
+									<div>{{comm.Name}} | {{comm.Date}}</div>
 									<div>{{comm.Comment}}</div>
 									
 								</li>
@@ -172,9 +189,10 @@
 				<!-- Contact Form -->
 				<div class="col-lg-6">
 					<div class="contact_form_container">
-						<form action="#" id="contact_form" class="contact_form">
-							<div style="margin-bottom: 18px"><input type="text" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
-							<div><textarea class="contact_textarea contact_input inpt" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+						<form method='POST' id="contact_form" class="contact_form">
+							{% csrf_token %}
+							<div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
+							<div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
 							<button class="contact_button">send</button>
 						</form>
 					</div>

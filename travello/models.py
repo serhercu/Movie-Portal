@@ -47,13 +47,18 @@ class Movie(models.Model):
         ('SC', 'Sci-fi'),
     ]
     Category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='CO')
+
     MeanRatings = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
     NumberRates = models.IntegerField(default=0)
+    numberLikes = models.IntegerField(default=0)
+    numberDislikes = models.IntegerField(default=0)
+
     NumberComments = models.IntegerField(default=0)
 
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
     persons = models.ManyToManyField(Person)
     comments = models.ManyToManyField(Comment)
+    link = models.CharField(max_length=150, default='')
 
     def __str__(self):
         return self.title

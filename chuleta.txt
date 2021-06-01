@@ -1,3 +1,33 @@
+TODO:
+- Search: mirar title
+- Search: genero poner desplegable
+- *menu por categorias*
+- *recomendar peliculas*
+- ajustar tamaño imagenes siempre el mismo
+
+
+
+
+- meter como cabrones peliculas
+
+------------------------------------------------------------
+DONE:
+- Search arreglar
+- Ratings
+- Comments
+- Video en cada pelicula
+
+
+
+
+
+
+
+
+
+
+
+
 MVC = Model View Controller
 DLT = Django
 ORM = Object-Relational Mapper
