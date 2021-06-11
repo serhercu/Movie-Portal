@@ -13,7 +13,6 @@ urlpatterns = [
     path('drama',views.drama, name='drama'),
     path('historical-drama',views.historicaldrama, name='historical-drama'),
     path('sci-fi',views.scifi, name='sci-fi'),
-    path('search/',views.search, name='search'),
     path('movie/<str:slug>/<int:id>',views.movie,name='movie')
 ]
 

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
+
 from .models import Movie, Comment
 from datetime import date
 
@@ -6,140 +8,178 @@ from datetime import date
 
 
 def index(request):
-    dests = Movie.objects.all().order_by('-id')
+    movies = Movie.objects.all().order_by('-id')
 
-    return render(request, 'index.html', {'dests': dests})
+    paginator = Paginator(movies, 9)
+    page = request.GET.get('page')
+    movies = paginator.get_page(page)
 
-def search(request):
-    title = request.GET['title']
-    year = request.GET['year']
-    director = request.GET['director']
-    genre = request.GET['genre']
+    search = False
 
-    searched = []
+    context = {
+        'movies' : movies,
+        'search' : search
+    }
 
-    if not title and not year and not director and not genre:
-        return render(request,'search.html', {'searched':searched})
+    if request.method == 'GET':
+        title = request.GET.get('title')
+        year = request.GET.get('year')
+        director = request.GET.get('director')
+        genre = request.GET.get('genre')
 
-    movies = Movie.objects.all()
+        movies = []
+        search = True
 
-    for movie in movies:
-        if title != "":
-            if title.lower() in movie.title.lower():
-                searched.append(movie) 
-        elif year != "":
-            if int(year) == movie.year:
-                searched.append(movie)
-        elif director != "":
-            if director in movie.director.Name:
-                searched.append(movie)
-        elif genre != "":
-            if genre == movie.Category:
-                searched.append(movie)
-    
-    return render(request,'search.html', {'searched': searched})
+        if not title and not year and not director and not genre:
+            search = True
+            return render(request,'index.html', context)
 
-def action(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "AC":
-            dests.append(movie)
+        movies1 = Movie.objects.all()
 
-    return render(request, 'index.html', {'dests': dests})
+        for movie in movies1:
+            if title != "":
+                if title.lower() in movie.title.lower():
+                    movies.append(movie) 
+            elif year != "":
+                if int(year) == movie.year:
+                    movies.append(movie)
+            elif director != "":
+                if director.lower() in movie.director.Name.lower():
+                    movies.append(movie)
+            elif genre != "":
+                if genre == movie.Category:
+                    movies.append(movie)
+        
+        context = {
+            'movies' : movies,
+            'search' : search
+        }
 
-def comedy(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "CO":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def romantic(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "RO":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def romcom(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "ROM":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def adventure(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "AD":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def musical(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "MU":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def drama(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "DR":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def historicaldrama(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "HDR":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
-
-def scifi(request):
-    movies1 = Movie.objects.all()
-    dests = []
-    
-    for movie in movies1:
-        if movie.Category == "SC":
-            dests.append(movie)
-
-    return render(request, 'index.html', {'dests': dests})
+    return render(request,'index.html', context)
 
 def movie(request, slug, id):
     movie = Movie.objects.get(id=id)
+    movies = Movie.objects.filter(Category=movie.Category)
 
     if request.method == 'POST':
-        user = request.POST.get('user')
-        text = request.POST.get('comment')
+        if request.POST.get("form_type") == 'liked':
+            movie = Movie.objects.get(id=id)
+            movie.numberLikes += 1
 
-        comment = Comment(Name=user, Comment=text, Date=date.today())
-        comment.save()
-        movie.comments.add(comment)
-        movie.save()
+            movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
+
+            movie.save()
         
+        elif request.POST.get("form_type") == 'disliked':
+            movie = Movie.objects.get(id=id)
+            movie.numberDislikes += 1
 
-    return render(request,'movie.html', {'movie': movie})
+            movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
+
+            movie.save()
+        else:
+            user = request.POST.get('user')
+            text = request.POST.get('comment')
+
+            comment = Comment(Name=user, Comment=text, Date=date.today())
+            comment.save()
+            movie.comments.add(comment)
+            movie.NumberComments += 1
+            movie.save()
+    
+    context = {
+        'movie' : movie,
+        'movies' : movies
+    }
+
+    return render(request,'movie.html', context)
+
+def action(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "AC":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def comedy(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "CO":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def romantic(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "RO":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def romcom(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "ROM":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def adventure(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "AD":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def musical(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "MU":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def drama(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "DR":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def historicaldrama(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "HDR":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})
+
+def scifi(request):
+    movies1 = Movie.objects.all()
+    movies = []
+    
+    for movie in movies1:
+        if movie.Category == "SC":
+            movies.append(movie)
+
+    return render(request, 'index.html', {'movies': movies})

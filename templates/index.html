@@ -17,6 +17,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/destinations.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/destinations_responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/news.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/news_responsive.css' %}">
 </head>
 <body>
 
@@ -40,7 +42,7 @@
 									<li><a href="accounts/logout">Logout</a></li>
 									{% else %}
 									<li><a href="accounts/register">Register</a></li>
-									<li><a href="travello/movie">Login</a></li>
+									<li><a href="accounts/login">Login</a></li>
 									{% endif %}
 								</ul>
 							</nav>
@@ -110,13 +112,13 @@
 					<div class="home_search_container">
 						<div class="home_search_title">Search your movie</div>
 						<div class="home_search_content">
-							<form action="search" class="home_search_form" id="home_search_form" method="GET">
+							<form action="" class="home_search_form" id="home_search_form" method="GET">
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
 									<input type="text" name="title" class="search_input search_input_1" placeholder="Title">
 									<input type="text" name="director" class="search_input search_input_2" placeholder="Director">
 									<input type="text" name= "year" class="search_input search_input_3" placeholder="Year">
 									<input type="text" name="genre" class="search_input search_input_4" placeholder="Genre">
-									<button class="home_search_button" href="search">search</button>
+									<button class="home_search_button" href="index">search</button>
 								</div>
 							</form>
 						</div>
@@ -135,9 +137,16 @@
 			<div class="row">
 				<div class="col text-center">
 					<div class="section_subtitle"></div>
+					{% if not search %}
 					<div class="section_title"><h2>Popular Movies</h2></div>
+					{% elif not movies %}
+					<div class="section_title"><h2>Any movie matches with this parameters, try again.</h2></div>
+					{% else %}
+					<div class="section_title"><h2>Results</h2></div>
+					{% endif %}
 				</div>
 			</div>
+			{% if not search %}
 			<div class="buttons">
 				<div class="elements_title"></div>
 				<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
@@ -152,26 +161,45 @@
 					<div class="button"><a href="sci-fi">Sci-fi</a></div>
 				</div>
 			</div>
+			{% endif %}
 			<div class="row destinations_row">
 				<div class="col">
 					<div class="destinations_container item_grid">
 
-						{% for dest in dests %}
+						{% for movie in movies %}
 						<!-- Movies -->
 						<div class="destination item">
 							<div class="destination_image">
-								<img src="{{dest.img.url}}" alt=""
+								<a href="/movie/{{movie.title}}/{{movie.id}}">
+								<img src="{{movie.img.url}}" alt=""
 									width="400px"
 									height="500px">
+								</a>
 							</div>
 							<div class="destination_content">
-								<div class="destination_title"><a href="/movie/{{dest.title}}/{{dest.id}}">{{dest.title}}</a></div>
-								<div class="destination_subtitle"><p>{{dest.year}}</p></div>
+								<div class="destination_title"><a href="/movie/{{movie.title}}/{{movie.id}}">{{movie.title}}</a></div>
+								<div class="destination_subtitle"><p>{{movie.year}}</p></div>
 							</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
+			</div>
+			<!-- Pagination -->
+			<div class="pagination">
+					{% if movies.has_previous %}
+						<a href="?page={{ movies.previous_page_number }}"><</a>
+					{% endif %}
+					{% for num in movies.paginator.page_range %}
+						{% if movies.number == num %}
+							<strong> {{ num }} </strong>
+					{% elif num > movies.number|add:'-3' and num < movies.number|add:'3' %}
+							{{ num }}
+						{% endif %}
+					{% endfor %}
+					{% if movies.has_next %}
+						<a href="?page={{ movies.next_page_number }}">></a>
+					{% endif %}
 			</div>
 		</div>
 	</div>

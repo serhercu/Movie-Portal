@@ -23,6 +23,9 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'styles/elements.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/elements_responsive.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
 </head>
 <body>
 
@@ -43,7 +46,7 @@
 
 									{% if user.is_authenticated %}
 									<li>Hello, {{user.first_name}}</li>
-									<li><a href="accounts/logout">Logout</a></li>
+									<li><a href="/accounts/logout">Logout</a></li>
 									{% else %}
 									<li><a href="accounts/register">Register</a></li>
 									<li><a href="travello/movie">Login</a></li>
@@ -88,9 +91,11 @@
 							<div class="row">
 								<div class="col">
 									<div class="home_slider_content">
-										<iframe width="720" height="700"
-											src="{{movie.link}}">
-										</iframe>
+										<iframe width="853" height="480" 
+										src="{{movie.link}}" 
+										title="YouTube video player" 
+										frameborder="0" 
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 										<div class="home_title"><h2></h2></div>
 									</div>
 								</div>
@@ -102,9 +107,9 @@
 
 			<div class="home_page_nav">
 				<ul class="d-flex flex-column align-items-end justify-content-end">
-					<li><a href="#" data-scroll-to="#destinations">Movies<span>01</span></a></li>
-					<li><a href="#" data-scroll-to="#testimonials"><span></span></a></li>
-					<li><a href="#" data-scroll-to="#news"><span></span></a></li>
+					<li><a href="#" data-scroll-to="#about">Movie<span>01</span></a></li>
+					<li><a href="#" data-scroll-to="#contact">Comments<span>02</span></a></li>
+					<li><a href="#" data-scroll-to="#why">Related<span>03</span></a></li>
 				</ul>
 			</div>
 		</div>
@@ -112,7 +117,7 @@
 
 	<!-- Movies -->
 
-	<div class="about">
+	<div class="about" id="about">
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
@@ -125,13 +130,13 @@
 					<div class="about_content">
 						<div class="about_text">
 							<p>Title: {{movie.title}}</p>
-							<p>Director : {{movie.director}}</p>
+							<p>Director : {{movie.director}} </p>
 							<p>Genre: {{movie.Category}}</p>
 							<p>Year: {{movie.year}}</p>
 							<p>Language: {{movie.Language}}</p>
 							<p>Actors: 
 							{% for actor in movie.persons.all %}
-                				{{ actor }}
+                				{{ actor }},   
             				{% endfor %}
 							</p>
 							<p>Plot: {{movie.desc}}</p>
@@ -140,16 +145,22 @@
 						<div class="buttons">
 							<div class="elements_title">Rating: {{movie.MeanRatings}}%</div>
 							<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
-								<div class="button"><a href="/movie/{{movie.title}}/{{movie.id}}/like">Like</a></div>
-								<div class="button button_2"><a href="/movie/{{movie.title}}/{{movie.id}}/dislike">Dislike</a></div>
+								<form id='liked' method='POST'>
+									{% csrf_token %}
+									<div class="button" name="form_type" value="liked" ><a>Like</a></div>
+								</form>
+								<form id='disliked' method='POST'>
+									{% csrf_token %}
+									<div class="button button_2" name="form_type" value="disliked"><a>Dislike</a></div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="about_image">
-						<img src="{{movie.img.url}}" alt=""
-							width="500px"
+						<img src="{{movie.img.url}}" alt="" style="float:right"
+							width="425px"
 							height="600px">
 					</div>
 				</div>
@@ -157,16 +168,16 @@
 		</div>
 	</div>
 
-	<!-- Contact -->
+	<!-- Comment -->
 
-	<div class="contact">
+	<div class="contact" id="contact">
 		<div class="container">
 			<div class="row">
 
-				<!-- Get in touch -->
+				<!-- Comments -->
 				<div class="col-lg-6">
 					<div class="contact_content">
-						<div class="contact_title">Comments</div>
+						<div class="contact_title">Comments ({{movie.NumberComments}})</div>
 						<div class="contact_text">
 							{% if not movie.comments.all %}
 							<p>This movie has no comments yet.</p>
@@ -186,7 +197,7 @@
 					</div>
 				</div>
 
-				<!-- Contact Form -->
+				<!-- Comment Form -->
 				<div class="col-lg-6">
 					<div class="contact_form_container">
 						<form method='POST' id="contact_form" class="contact_form">
@@ -197,6 +208,44 @@
 						</form>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Why Choose Us -->
+
+	<div class="why" id="why">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/pop_corn.jpg' %}" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title"><h2>Related movies</h2></div>
+				</div>
+			</div>
+			<div class="row why_row">
+				
+				<!-- Why item -->
+				{% for rec in movies %}
+				{% if rec != movie %}
+				<div class="col-lg-4 why_col">
+					<div class="why_item">
+						<div class="why_image">
+							<a href="/movie/{{rec.title}}/{{rec.id}}">
+							<img src="{{rec.img.url}}" alt="/movie/{{movie.title}}/{{movie.id}}"
+							width="400px"
+							height="500px">
+						</a>
+						</div>
+						<div class="why_content text-center">
+							<div class="why_title">{{rec.title}}</a></div>
+							<div class="why_text">
+								<p>{{rec.year}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
 			</div>
 		</div>
 	</div>

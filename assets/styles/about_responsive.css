@@ -130,7 +130,7 @@
 		width: 100%;
 		margin-bottom: 12px;
 	}
-	.home_search_button
+	.home_search_button [type=button], input[type=submit]
 	{
 		width: 100%;
 		margin-top: 10px;
@@ -262,12 +262,12 @@
 	{
 		font-size: 16px;
 	}
-	.button
+	.button [type=button], input[type=submit]
 	{
 		width: 141px;
 		height: 40px;
 	}
-	.button a
+	.button a [type=button], input[type=submit]
 	{
 		font-size: 14px;
 		line-height: 40px;
@@ -308,7 +308,7 @@
 	{
 		font-size: 13px !important;
 	}
-	.home_search_button
+	.home_search_button [type=button], input[type=submit]
 	{
 		height: 42px;
 		font-size: 12px;

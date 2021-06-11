@@ -62,7 +62,7 @@ ul
 p
 {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 34px;
+	font-size: 14px;
 	line-height: 1.9285;
 	font-weight: 400;
 	color: #72728c;
@@ -264,11 +264,11 @@ section
 	color: #181818;
 	margin-top: 26px;
 }
-.button
+.button input[type=button], input[type=submit]
 {
 	width: 161px;
 	height: 52px;
-	background: rgba(24,24,24,1);
+	background: rgb(0, 0, 0);
 	text-align: center;
 	border-radius: 20px;
 	cursor: pointer;
@@ -278,7 +278,7 @@ section
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.button a
+.button a [type=button], input[type=submit]
 {
 	display: block;
 	font-family: 'Oswald', sans-serif;
@@ -288,7 +288,7 @@ section
 	color: #FFFFFF;
 	line-height: 52px;
 }
-.button:hover
+.button:hover [type=button], input[type=submit]
 {
 	background: rgba(24,24,24,0.7);
 }
@@ -739,7 +739,7 @@ section
 	font-weight: 400 !important;
 	color: #72728c !important;
 }
-.home_search_button
+.home_search_button [type=button], input[type=submit]
 {
 	width: 161px;
 	height: 52px;
@@ -784,8 +784,9 @@ section
 .about_text
 {
 	margin-top: 35px;
+	width: 100%;
 }
-.about_button
+.about_button [type=button], input[type=submit]
 {
 	margin-top: 67px;
 	display: inline-block
@@ -1082,7 +1083,7 @@ section
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.newsletter_button
+.newsletter_button [type=button], input[type=submit]
 {
 	width: 161px;
 	height: 50px;

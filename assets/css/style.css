@@ -1,0 +1,16 @@
+.row-content{
+	margin-bottom: 5%;
+
+}
+
+.total{
+	border-radius: 25px;
+	border: 2px solid #e8ecef;
+	padding: 20px;
+}
+
+p {
+	text-align: justify;
+	text-justify: inter-word;
+}
+
