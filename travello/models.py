@@ -64,15 +64,3 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
-
-class Rate(models.Model):
-    Rate = models.BooleanField(default=True)
-    Date = models.DateTimeField('date published')
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.Rate
-
-    def was_published_recently(self):
-        return self.Date >= timezone.now() - datetime.timedelta(days=1)
-
