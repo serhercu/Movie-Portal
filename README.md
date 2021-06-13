@@ -25,4 +25,6 @@ Installation steps:
 
 
 
-Created by Sergio Herrando Cuenca and Bernat Puig Font
+Created by:
+- Sergio Herrando Cuenca
+- Bernat Puig Font
