@@ -48,8 +48,8 @@
 									<li>Hello, {{user.first_name}}</li>
 									<li><a href="/accounts/logout">Logout</a></li>
 									{% else %}
-									<li><a href="accounts/register">Register</a></li>
-									<li><a href="travello/movie">Login</a></li>
+									<li><a href="/accounts/register">Register</a></li>
+									<li><a href="/accounts/login">Login</a></li>
 									{% endif %}
 								</ul>
 							</nav>
@@ -85,7 +85,7 @@
 
 				<!-- Slide -->
 				<div class="owl-item">
-					<div class="background_image" style="background-image:url(static/images/home_slider2.jpg)"></div>
+					<div class="background_image" style="background-image:url(/static/images/home_slider2.jpg)"></div>
 					<div class="home_slider_content_container">
 						<div class="container">
 							<div class="row">
@@ -145,15 +145,22 @@
 						<div class="buttons">
 							<div class="elements_title">Rating: {{movie.MeanRatings}}%</div>
 							<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
-								<form id='liked' method='POST'>
+								<form action="" method="POST">
 									{% csrf_token %}
-									<div class="button" name="form_type" value="liked" ><a>Like</a></div>
+									<button type="submit" class="button button_3" name="like"><a>Like</a></button>
 								</form>
-								<form id='disliked' method='POST'>
+								<form action="" method="POST">
 									{% csrf_token %}
-									<div class="button button_2" name="form_type" value="disliked"><a>Dislike</a></div>
+									<button type="submit" style="margin-left: 10px" class="button button_3" name="dislike"><a>Dislike</a></button>
 								</form>
 							</div>
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}" style="color: black" {% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
 				</div>
@@ -200,11 +207,11 @@
 				<!-- Comment Form -->
 				<div class="col-lg-6">
 					<div class="contact_form_container">
-						<form method='POST' id="contact_form" class="contact_form">
+						<form action="" method="POST">
 							{% csrf_token %}
 							<div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
 							<div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
-							<button class="contact_button">send</button>
+							<button type="submit" class="contact_button" name="send">send</button>
 						</form>
 					</div>
 				</div>
@@ -237,7 +244,7 @@
 						</a>
 						</div>
 						<div class="why_content text-center">
-							<div class="why_title">{{rec.title}}</a></div>
+							<div class="why_title">{{rec.title}}</div>
 							<div class="why_text">
 								<p>{{rec.year}}</p>
 							</div>
@@ -249,8 +256,6 @@
 			</div>
 		</div>
 	</div>
-
-	
 		
 	</footer>
 </div>

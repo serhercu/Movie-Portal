@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.contrib import messages
+
+from django.utils import timezone
 
 from .models import Movie, Comment
 from datetime import date
+
 
 # Create your views here.
 
@@ -17,8 +21,8 @@ def index(request):
     search = False
 
     context = {
-        'movies' : movies,
-        'search' : search
+        'movies': movies,
+        'search': search
     }
 
     if request.method == 'GET':
@@ -32,14 +36,14 @@ def index(request):
 
         if not title and not year and not director and not genre:
             search = True
-            return render(request,'index.html', context)
+            return render(request, 'index.html', context)
 
         movies1 = Movie.objects.all()
 
         for movie in movies1:
             if title != "":
                 if title.lower() in movie.title.lower():
-                    movies.append(movie) 
+                    movies.append(movie)
             elif year != "":
                 if int(year) == movie.year:
                     movies.append(movie)
@@ -49,135 +53,150 @@ def index(request):
             elif genre != "":
                 if genre == movie.Category:
                     movies.append(movie)
-        
+
         context = {
-            'movies' : movies,
-            'search' : search
+            'movies': movies,
+            'search': search
         }
 
-    return render(request,'index.html', context)
+    return render(request, 'index.html', context)
+
 
 def movie(request, slug, id):
     movie = Movie.objects.get(id=id)
     movies = Movie.objects.filter(Category=movie.Category)
 
     if request.method == 'POST':
-        if request.POST.get("form_type") == 'liked':
-            movie = Movie.objects.get(id=id)
-            movie.numberLikes += 1
-
-            movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
-
-            movie.save()
-        
-        elif request.POST.get("form_type") == 'disliked':
-            movie = Movie.objects.get(id=id)
-            movie.numberDislikes += 1
-
-            movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
-
-            movie.save()
-        else:
+        if 'send' in request.POST:
             user = request.POST.get('user')
             text = request.POST.get('comment')
 
-            comment = Comment(Name=user, Comment=text, Date=date.today())
+            comment = Comment(Name=user, Comment=text, Date=timezone.now())
             comment.save()
             movie.comments.add(comment)
             movie.NumberComments += 1
             movie.save()
-    
+
+        if request.user.is_authenticated:
+            found = False
+            for x in movie.Voters:
+                if x == str(request.user.id): found = True
+
+            if not found:
+                if 'like' in request.POST:
+                    movie.numberLikes += 1
+                elif 'dislike' in request.POST:
+                    movie.numberDislikes += 1
+                movie.Voters.append(str(request.user.id))
+                movie.save()
+            else:
+                messages.info(request, 'You already voted this film!')
+        else:
+            messages.info(request, 'You should log in to vote!')
+
+    if movie.numberLikes + movie.numberDislikes != 0:
+        movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
+
     context = {
-        'movie' : movie,
-        'movies' : movies
+        'movie': movie,
+        'movies': movies
     }
 
-    return render(request,'movie.html', context)
+    return render(request, 'movie.html', context)
+
 
 def action(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "AC":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def comedy(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "CO":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def romantic(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "RO":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def romcom(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "ROM":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def adventure(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "AD":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def musical(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "MU":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def drama(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "DR":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def historicaldrama(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "HDR":
             movies.append(movie)
 
     return render(request, 'index.html', {'movies': movies})
 
+
 def scifi(request):
     movies1 = Movie.objects.all()
     movies = []
-    
+
     for movie in movies1:
         if movie.Category == "SC":
             movies.append(movie)

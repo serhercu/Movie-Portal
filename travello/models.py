@@ -1,4 +1,5 @@
 import datetime
+from django.contrib.postgres.fields import ArrayField
 
 from django.db import models
 from django.utils import timezone
@@ -8,7 +9,6 @@ from django.utils import timezone
 
 class Person(models.Model):
     Name = models.CharField(max_length=50)
-    Role = models.BooleanField(default=True)
 
     def __str__(self):
         return self.Name
@@ -22,7 +22,7 @@ class Director(models.Model):
 
 class Comment(models.Model):
     Name = models.CharField(max_length=40)
-    Comment = models.CharField(max_length=400)
+    Comment = models.CharField(max_length=2000)
     Date = models.DateTimeField('date published')
 
     def __str__(self):
@@ -49,15 +49,16 @@ class Movie(models.Model):
     Category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='CO')
 
     MeanRatings = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
-    NumberRates = models.IntegerField(default=0)
     numberLikes = models.IntegerField(default=0)
     numberDislikes = models.IntegerField(default=0)
 
     NumberComments = models.IntegerField(default=0)
 
+    Voters = ArrayField(models.CharField(max_length=10), blank=True, default=list)
+
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
-    persons = models.ManyToManyField(Person)
-    comments = models.ManyToManyField(Comment)
+    persons = models.ManyToManyField(Person, blank=True)
+    comments = models.ManyToManyField(Comment, blank=True)
     link = models.CharField(max_length=150, default='')
 
     def __str__(self):
