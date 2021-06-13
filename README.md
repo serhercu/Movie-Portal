@@ -23,3 +23,6 @@ Installation steps:
 - Open http://127.0.0.1:8000/admin/  in a web browser and create new movies (Images are inside the project in: /media/pics)
 - Open http://127.0.0.1:8000/ and play.
 
+
+
+Created by Sergio Herrando Cuenca and Bernat Puig Font
