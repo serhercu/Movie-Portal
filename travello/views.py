@@ -67,32 +67,35 @@ def movie(request, slug, id):
     movies = Movie.objects.filter(Category=movie.Category)
 
     if request.method == 'POST':
-        if 'send' in request.POST:
-            user = request.POST.get('user')
-            text = request.POST.get('comment')
-
-            comment = Comment(Name=user, Comment=text, Date=timezone.now())
-            comment.save()
-            movie.comments.add(comment)
-            movie.NumberComments += 1
-            movie.save()
-
         if request.user.is_authenticated:
-            found = False
-            for x in movie.Voters:
-                if x == str(request.user.id): found = True
+            if 'send' in request.POST:
+                user = request.POST.get('user')
+                text = request.POST.get('comment')
 
-            if not found:
-                if 'like' in request.POST:
-                    movie.numberLikes += 1
-                elif 'dislike' in request.POST:
-                    movie.numberDislikes += 1
-                movie.Voters.append(str(request.user.id))
+                comment = Comment(Name=user, Comment=text, Date=timezone.now())
+                comment.save()
+                movie.comments.add(comment)
+                movie.NumberComments += 1
                 movie.save()
             else:
-                messages.info(request, 'You already voted this film!')
+                found = False
+                for x in movie.Voters:
+                    if x == str(request.user.id): found = True
+
+                if not found:
+                    if 'like' in request.POST:
+                        movie.numberLikes += 1
+                    elif 'dislike' in request.POST:
+                        movie.numberDislikes += 1
+                        movie.Voters.append(str(request.user.id))
+                        movie.save()
+                else:
+                    messages.info(request, 'You already voted this film!', extra_tags='vote')
         else:
-            messages.info(request, 'You should log in to vote!')
+            if 'send' in request.POST:
+                messages.info(request, 'You should log in to comment!', extra_tags='comment')
+            else:
+                messages.info(request, 'You should log in to vote!', extra_tags='vote')
 
     if movie.numberLikes + movie.numberDislikes != 0:
         movie.MeanRatings = round(movie.numberLikes / (movie.numberLikes + movie.numberDislikes) * 100, 2)
