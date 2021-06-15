@@ -209,13 +209,13 @@
 				<!-- Comment Form -->
 				<div class="col-lg-6">
 					<div class="contact_form_container">
-						<form action="" method="POST">
-							{% csrf_token %}
-							<div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
-							<div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
-							<button type="submit" class="contact_button" name="send">send</button>
-						</form>
                         {% if messages %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
+                                <div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+                                <button type="submit" class="contact_button" name="send">send</button>
+                            </form>
                             <ul class="messages">
                                 {% for message in messages %}
                                     {%if "comment" in message.tags %}
@@ -223,6 +223,13 @@
                                     {%endif%}
                                 {% endfor %}
                             </ul>
+                        {% else %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" value="{{user.first_name}} {{user.last_name}}" required="required" readonly="readonly"><div class="input_border"></div></div>
+                                <div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+                                <button type="submit" class="contact_button" name="send">send</button>
+                            </form>
                         {% endif %}
 					</div>
 				</div>
